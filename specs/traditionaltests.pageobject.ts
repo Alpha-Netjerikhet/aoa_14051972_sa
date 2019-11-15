@@ -12,17 +12,23 @@ export class HackathonAppPage {
     private rememberMeCheckbox: ElementFinder = element(by.className('form-check-input'));
     private rememberMeLabel: ElementFinder = element(by.className('form-check-label'));
     private socialMediaIcons: ElementArrayFinder = element.all(by.css('form img'));
-    private alertWarning = element(by.className('alert alert-warning'));
-    private transactionsTable = element(by.css('#transactionsTable'));
-    private amountColumnHeader = element(by.css('#amount'));
-    private loggedUser = element(by.css('.top-bar .logged-user-w'));
-    private compareExpensesLink = element(by.id('showExpensesChart'));
-    private canvas = element(by.id('canvas'));
+    private alertWarning: ElementFinder = element(by.className('alert alert-warning'));
+    private transactionsTable: ElementFinder = element(by.css('#transactionsTable'));
+    private amountColumnHeader: ElementFinder = element(by.css('#amount'));
+    private loggedUser: ElementFinder = element(by.css('.top-bar .logged-user-w'));
+    private compareExpensesLink: ElementFinder = element(by.id('showExpensesChart'));
+    private canvas: ElementFinder = element(by.id('canvas'));
+    private flashSale1Container: ElementFinder = element(by.id('flashSale'));
+    private flashSale2Container: ElementFinder = element(by.id('flashSale2'));
 
-    public async get(): Promise<void> {
+    public async get(withAds: boolean): Promise<void> {
+        let url: string = 'https://demo.applitools.com/hackathon.html';
+        // let url: string = 'https://demo.applitools.com/hackathonV2.html';
         browser.waitForAngularEnabled(false);
-        await browser.get('https://demo.applitools.com/hackathon.html');
-        // await browser.get('https://demo.applitools.com/hackathonV2.html');
+        if (withAds) {
+            url += '?showAd=true';
+        }
+        await browser.get(url);
     }
 
     /**
@@ -162,6 +168,22 @@ export class HackathonAppPage {
     }
 
     /**
+    * Getter $flashSale1Container
+    * @return {ElementFinder }
+    */
+    public get $flashSale1Container(): ElementFinder {
+        return this.flashSale1Container;
+    }
+
+    /**
+    * Getter $flashSale2Container
+    * @return {ElementFinder }
+    */
+    public get $flashSale2Container(): ElementFinder {
+        return this.flashSale2Container;
+    }
+
+    /**
      * Setter $logo
      * @param {ElementFinder } value
      */
@@ -247,6 +269,14 @@ export class HackathonAppPage {
      */
     public set $socialMediaIcons(value: ElementArrayFinder) {
         this.socialMediaIcons = value;
+    }
+
+    public async loginWithCredentials(username: string, password: string): Promise<void> {
+        await this.userNameField.clear();
+        await this.userNameField.sendKeys(username);
+        await this.passwordField.clear();
+        await this.passwordField.sendKeys(password);
+        await this.loginBtn.click();
     }
 
     public isSorted = async (actualAmounts: string) => {
