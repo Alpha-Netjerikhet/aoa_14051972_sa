@@ -55,6 +55,8 @@ var HackathonAppPage = /** @class */ (function () {
         this.transactionsTable = protractor_1.element(protractor_1.by.css('#transactionsTable'));
         this.amountColumnHeader = protractor_1.element(protractor_1.by.css('#amount'));
         this.loggedUser = protractor_1.element(protractor_1.by.css('.top-bar .logged-user-w'));
+        this.compareExpensesLink = protractor_1.element(protractor_1.by.id('showExpensesChart'));
+        this.canvas = protractor_1.element(protractor_1.by.id('canvas'));
         this.isSorted = function (actualAmounts) { return __awaiter(_this, void 0, void 0, function () {
             var isSorted, i, el1, el2;
             return __generator(this, function (_a) {
@@ -323,6 +325,28 @@ var HackathonAppPage = /** @class */ (function () {
         */
         get: function () {
             return this.loggedUser;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(HackathonAppPage.prototype, "$compareExpensesLink", {
+        /**
+        * Getter $compareExpensesLink
+        * @return {ElementFinder }
+        */
+        get: function () {
+            return this.compareExpensesLink;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(HackathonAppPage.prototype, "$canvas", {
+        /**
+        * Getter $canvas
+        * @return {ElementFinder }
+        */
+        get: function () {
+            return this.canvas;
         },
         enumerable: true,
         configurable: true

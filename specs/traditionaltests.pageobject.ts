@@ -16,6 +16,8 @@ export class HackathonAppPage {
     private transactionsTable = element(by.css('#transactionsTable'));
     private amountColumnHeader = element(by.css('#amount'));
     private loggedUser = element(by.css('.top-bar .logged-user-w'));
+    private compareExpensesLink = element(by.id('showExpensesChart'));
+    private canvas = element(by.id('canvas'));
 
     public async get(): Promise<void> {
         browser.waitForAngularEnabled(false);
@@ -141,6 +143,22 @@ export class HackathonAppPage {
     */
     public get $loggedUser(): ElementFinder {
         return this.loggedUser;
+    }
+
+    /**
+    * Getter $compareExpensesLink
+    * @return {ElementFinder }
+    */
+    public get $compareExpensesLink(): ElementFinder {
+        return this.compareExpensesLink;
+    }
+
+    /**
+    * Getter $canvas
+    * @return {ElementFinder }
+    */
+    public get $canvas(): ElementFinder {
+        return this.canvas;
     }
 
     /**

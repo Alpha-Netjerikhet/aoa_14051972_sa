@@ -1,4 +1,4 @@
-import { ElementFinder, element, by, browser, ElementArrayFinder } from "protractor";
+import { element, by } from "protractor";
 import { HackathonAppPage } from './traditionaltests.pageobject';
 
 describe('Version 1 hackathon app', () => {
@@ -42,9 +42,14 @@ describe('Version 1 hackathon app', () => {
     it('Table Sort Test', async () => {
         expect(await appPage.$transactionsTable.isDisplayed()).toBe(true, 'Transactions table is NOT displayed');
         await appPage.$amountColumnHeader.click();
-        await browser.sleep(2000);
         // actual amounts after sort
         const actualAmountsAfterSort: string = await element.all(by.css('#transactionsTable tbody tr td:nth-child(5)')).getText();
         expect(await appPage.isSorted(actualAmountsAfterSort)).toBe(true, 'Amounts are NOT sorted in ascending order');
+    });
+
+    it('Canvas Chart Test', async () => {
+        await appPage.$compareExpensesLink.click();
+        expect(await appPage.$canvas.isDisplayed()).toBe(true, 'Chart is NOT displayed');
+        // canvas content needs more effort to be tested using special libraries
     });
 });

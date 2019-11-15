@@ -164,16 +164,28 @@ describe('Version 1 hackathon app', function () {
                     return [4 /*yield*/, appPage.$amountColumnHeader.click()];
                 case 2:
                     _c.sent();
-                    return [4 /*yield*/, protractor_1.browser.sleep(2000)];
-                case 3:
-                    _c.sent();
                     return [4 /*yield*/, protractor_1.element.all(protractor_1.by.css('#transactionsTable tbody tr td:nth-child(5)')).getText()];
-                case 4:
+                case 3:
                     actualAmountsAfterSort = _c.sent();
                     _b = expect;
                     return [4 /*yield*/, appPage.isSorted(actualAmountsAfterSort)];
-                case 5:
+                case 4:
                     _b.apply(void 0, [_c.sent()]).toBe(true, 'Amounts are NOT sorted in ascending order');
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('Canvas Chart Test', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0: return [4 /*yield*/, appPage.$compareExpensesLink.click()];
+                case 1:
+                    _b.sent();
+                    _a = expect;
+                    return [4 /*yield*/, appPage.$canvas.isDisplayed()];
+                case 2:
+                    _a.apply(void 0, [_b.sent()]).toBe(true, 'Chart is NOT displayed');
                     return [2 /*return*/];
             }
         });
