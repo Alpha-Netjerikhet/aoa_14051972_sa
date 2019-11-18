@@ -1,4 +1,5 @@
-import { browser, by, element, ElementFinder, ExpectedConditions } from 'protractor';
+import isEqual from 'lodash.isequal';
+import { browser, by, element, ElementArrayFinder, ElementFinder, ExpectedConditions } from 'protractor';
 
 import { HackathonAppPage } from './traditionaltests.pageobject';
 
@@ -88,8 +89,25 @@ describe('Version 1 hackathon app', () => {
         });
 
         describe('Table Sort Test', async () => {
+            let jsonObjBeforeSort: any;
+            let jsonObjAfterSort: any;
+
             it('should display a Transactions table', async () => {
                 expect(await appPage.$transactionsTable.isDisplayed()).toBe(true, 'Transactions table is NOT displayed');
+            });
+
+            it('should store table data before sort', async () => {
+                const rowsBeforeSort = await element.all(by.css('#transactionsTable tbody tr')).map((row: any) => {
+                    return {
+                        complete: row.element(by.css('td:nth-child(1) span:nth-child(2)')).getText(),
+                        date: row.element(by.css('td:nth-child(2) span:nth-child(1)')).getText(),
+                        description: row.element(by.css('td:nth-child(3) span')).getText(),
+                        category: row.element(by.css('td:nth-child(4) a')).getText(),
+                        amount: row.element(by.css('td:nth-child(5) span')).getText()
+                    };
+                });
+                const jsonString = JSON.stringify(rowsBeforeSort);
+                jsonObjBeforeSort = JSON.parse(jsonString);
             });
 
             it('should sort amounts when click on amounts header', async () => {
@@ -99,22 +117,32 @@ describe('Version 1 hackathon app', () => {
                 expect(await appPage.isSorted(actualAmountsAfterSort)).toBe(true, 'Amounts are NOT sorted in ascending order');
             });
 
-            it('should keep rows integrity', async () => {
-                // rows integrity needs more time and effort to be tested
+            it('should preserve rows integrity after the sort', async () => {
+                const rowsAfterSort = await element.all(by.css('#transactionsTable tbody tr')).map((row: any) => {
+                    return {
+                        complete: row.element(by.css('td:nth-child(1) span:nth-child(2)')).getText(),
+                        date: row.element(by.css('td:nth-child(2) span:nth-child(1)')).getText(),
+                        description: row.element(by.css('td:nth-child(3) span')).getText(),
+                        category: row.element(by.css('td:nth-child(4) a')).getText(),
+                        amount: row.element(by.css('td:nth-child(5) span')).getText()
+                    };
+                });
+                const jsonString = JSON.stringify(rowsAfterSort);
+                jsonObjAfterSort = JSON.parse(jsonString);
+                expect(isEqual(jsonObjBeforeSort.sort(appPage.compareValues('category')), jsonObjAfterSort.sort(appPage.compareValues('category')))).toBe(true, 'Rows integrity is NOT preserved after sorting by amount');
             });
         });
+    });
 
-        describe('Canvas Chart Test', async () => {
-            it('should display Canvas chart', async () => {
-                await appPage.$compareExpensesLink.click();
-                expect(await appPage.$canvas.isDisplayed()).toBe(true, 'Chart is NOT displayed');
-            });
-
-            it('should display canvas charts content', async () => {
-                // canvas content needs more effort to be tested using special libraries
-            });
+    describe('Canvas Chart Test', async () => {
+        it('should display Canvas chart', async () => {
+            await appPage.$compareExpensesLink.click();
+            expect(await appPage.$canvas.isDisplayed()).toBe(true, 'Chart is NOT displayed');
         });
 
+        it('should display canvas charts content', async () => {
+            // canvas content needs more effort to be tested using special libraries
+        });
     });
 
     describe("Dynamic Content Test, with ads", function () {
@@ -145,6 +173,5 @@ describe('Version 1 hackathon app', () => {
                 expect(flashImg2.getAttribute('src')).toContain('img/flashSale2.gif', 'Second flash sale image displays different GIF image');
             });
         });
-
     });
 });

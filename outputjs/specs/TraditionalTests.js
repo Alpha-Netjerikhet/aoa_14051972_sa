@@ -35,7 +35,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+var lodash_isequal_1 = __importDefault(require("lodash.isequal"));
 var protractor_1 = require("protractor");
 var traditionaltests_pageobject_1 = require("./traditionaltests.pageobject");
 describe('Version 1 hackathon app', function () {
@@ -286,6 +290,7 @@ describe('Version 1 hackathon app', function () {
             });
         }); });
         describe('Table Sort Test', function () { return __awaiter(_this, void 0, void 0, function () {
+            var jsonObjBeforeSort, jsonObjAfterSort;
             var _this = this;
             return __generator(this, function (_a) {
                 it('should display a Transactions table', function () { return __awaiter(_this, void 0, void 0, function () {
@@ -297,6 +302,27 @@ describe('Version 1 hackathon app', function () {
                                 return [4 /*yield*/, appPage.$transactionsTable.isDisplayed()];
                             case 1:
                                 _a.apply(void 0, [_b.sent()]).toBe(true, 'Transactions table is NOT displayed');
+                                return [2 /*return*/];
+                        }
+                    });
+                }); });
+                it('should store table data before sort', function () { return __awaiter(_this, void 0, void 0, function () {
+                    var rowsBeforeSort, jsonString;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4 /*yield*/, protractor_1.element.all(protractor_1.by.css('#transactionsTable tbody tr')).map(function (row) {
+                                    return {
+                                        complete: row.element(protractor_1.by.css('td:nth-child(1) span:nth-child(2)')).getText(),
+                                        date: row.element(protractor_1.by.css('td:nth-child(2) span:nth-child(1)')).getText(),
+                                        description: row.element(protractor_1.by.css('td:nth-child(3) span')).getText(),
+                                        category: row.element(protractor_1.by.css('td:nth-child(4) a')).getText(),
+                                        amount: row.element(protractor_1.by.css('td:nth-child(5) span')).getText()
+                                    };
+                                })];
+                            case 1:
+                                rowsBeforeSort = _a.sent();
+                                jsonString = JSON.stringify(rowsBeforeSort);
+                                jsonObjBeforeSort = JSON.parse(jsonString);
                                 return [2 /*return*/];
                         }
                     });
@@ -319,41 +345,57 @@ describe('Version 1 hackathon app', function () {
                         }
                     });
                 }); });
-                it('should keep rows integrity', function () { return __awaiter(_this, void 0, void 0, function () {
+                it('should preserve rows integrity after the sort', function () { return __awaiter(_this, void 0, void 0, function () {
+                    var rowsAfterSort, jsonString;
                     return __generator(this, function (_a) {
-                        return [2 /*return*/];
-                    });
-                }); });
-                return [2 /*return*/];
-            });
-        }); });
-        describe('Canvas Chart Test', function () { return __awaiter(_this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                it('should display Canvas chart', function () { return __awaiter(_this, void 0, void 0, function () {
-                    var _a;
-                    return __generator(this, function (_b) {
-                        switch (_b.label) {
-                            case 0: return [4 /*yield*/, appPage.$compareExpensesLink.click()];
+                        switch (_a.label) {
+                            case 0: return [4 /*yield*/, protractor_1.element.all(protractor_1.by.css('#transactionsTable tbody tr')).map(function (row) {
+                                    return {
+                                        complete: row.element(protractor_1.by.css('td:nth-child(1) span:nth-child(2)')).getText(),
+                                        date: row.element(protractor_1.by.css('td:nth-child(2) span:nth-child(1)')).getText(),
+                                        description: row.element(protractor_1.by.css('td:nth-child(3) span')).getText(),
+                                        category: row.element(protractor_1.by.css('td:nth-child(4) a')).getText(),
+                                        amount: row.element(protractor_1.by.css('td:nth-child(5) span')).getText()
+                                    };
+                                })];
                             case 1:
-                                _b.sent();
-                                _a = expect;
-                                return [4 /*yield*/, appPage.$canvas.isDisplayed()];
-                            case 2:
-                                _a.apply(void 0, [_b.sent()]).toBe(true, 'Chart is NOT displayed');
+                                rowsAfterSort = _a.sent();
+                                jsonString = JSON.stringify(rowsAfterSort);
+                                jsonObjAfterSort = JSON.parse(jsonString);
+                                expect(lodash_isequal_1.default(jsonObjBeforeSort.sort(appPage.compareValues('category')), jsonObjAfterSort.sort(appPage.compareValues('category')))).toBe(true, 'Rows integrity is NOT preserved after sorting by amount');
                                 return [2 /*return*/];
                         }
-                    });
-                }); });
-                it('should display canvas charts content', function () { return __awaiter(_this, void 0, void 0, function () {
-                    return __generator(this, function (_a) {
-                        return [2 /*return*/];
                     });
                 }); });
                 return [2 /*return*/];
             });
         }); });
     });
+    describe('Canvas Chart Test', function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            it('should display Canvas chart', function () { return __awaiter(void 0, void 0, void 0, function () {
+                var _a;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
+                        case 0: return [4 /*yield*/, appPage.$compareExpensesLink.click()];
+                        case 1:
+                            _b.sent();
+                            _a = expect;
+                            return [4 /*yield*/, appPage.$canvas.isDisplayed()];
+                        case 2:
+                            _a.apply(void 0, [_b.sent()]).toBe(true, 'Chart is NOT displayed');
+                            return [2 /*return*/];
+                    }
+                });
+            }); });
+            it('should display canvas charts content', function () { return __awaiter(void 0, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    return [2 /*return*/];
+                });
+            }); });
+            return [2 /*return*/];
+        });
+    }); });
     describe("Dynamic Content Test, with ads", function () {
         var _this = this;
         var flashImg1;

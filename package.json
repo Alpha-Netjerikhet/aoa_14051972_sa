@@ -12,6 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "@types/jasmine": "^3.4.6",
+    "@types/lodash.isequal": "^4.5.5",
+    "lodash.isequal": "^4.5.0",
     "webdriver-manager": "^12.1.7"
   },
   "devDependencies": {
