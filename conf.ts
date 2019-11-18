@@ -1,11 +1,14 @@
 import { SpecReporter } from 'jasmine-spec-reporter';
-import { Config } from "protractor";
+import { browser, Config } from "protractor";
 
 export let config: Config = {
     framework: "jasmine",
 
     capabilities: {
         browserName: 'chrome',
+        chromeOptions: {
+            args: ['--start-maximized']
+        }
     },
 
     directConnect: true,
@@ -24,5 +27,6 @@ export let config: Config = {
                 displayStacktrace: true
             }
         }));
+        // browser.manage().window().maximize();
     }
 }
