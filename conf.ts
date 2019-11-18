@@ -1,5 +1,5 @@
-import { Config } from "protractor";
 import { SpecReporter } from 'jasmine-spec-reporter';
+import { Config } from "protractor";
 
 export let config: Config = {
     framework: "jasmine",
@@ -9,6 +9,8 @@ export let config: Config = {
     },
 
     directConnect: true,
+
+    baseUrl: 'https://demo.applitools.com',
 
     specs: ['./specs/TraditionalTests.js'],
 
