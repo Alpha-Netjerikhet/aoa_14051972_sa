@@ -22,8 +22,8 @@ export class HackathonAppPage {
     private flashSale2Container: ElementFinder = element(by.id('flashSale2'));
 
     public async get(withAds: boolean): Promise<void> {
-        let url: string = browser.baseUrl + '/hackathon.html';
-        // let url: string = browser.baseUrl + '/hackathonV2.html';
+        // let url: string = browser.baseUrl + '/hackathon.html';
+        let url: string = browser.baseUrl + '/hackathonV2.html';
         browser.waitForAngularEnabled(false);
         if (withAds) {
             url += '?showAd=true';
