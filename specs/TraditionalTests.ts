@@ -3,7 +3,7 @@ import { browser, by, element, ElementArrayFinder, ElementFinder, ExpectedCondit
 
 import { HackathonAppPage } from './traditionaltests.pageobject';
 
-describe('Version 1 hackathon app', () => {
+describe('Version 2 hackathon app', () => {
     let appPage: HackathonAppPage;
 
     beforeAll(async () => {
@@ -21,11 +21,7 @@ describe('Version 1 hackathon app', () => {
             });
 
             it('should display Header text', async () => {
-                expect(await appPage.$headerEl.getText()).toContain('Login Form', 'Header text is not correct');
-            });
-
-            it('should display User icon', async () => {
-                expect(await appPage.$userIcon.isDisplayed()).toBe(true, 'User icon is NOT displayed');
+                expect(await appPage.$headerEl.getText()).toContain('Logout Form', 'Header text is not correct');
             });
 
             it('should display Username label', async () => {
@@ -33,19 +29,15 @@ describe('Version 1 hackathon app', () => {
             });
 
             it('should display Username field placeholder', async () => {
-                expect(await appPage.$userNameField.getAttribute('placeholder')).toContain('Enter your username', 'Username field placeholder is not correct');
-            });
-
-            it('should display Fingerprint icon', async () => {
-                expect(await appPage.$fingerprintIcon.isDisplayed()).toBe(true, 'Fingerprint icon is NOT visible');
+                expect(await appPage.$userNameField.getAttribute('placeholder')).toContain('John Smith', 'Username field placeholder is not correct');
             });
 
             it('should display Password label', async () => {
-                expect(await appPage.$formGroup.last().element(by.tagName('label')).getText()).toEqual('Password', 'Password label is not correct');
+                expect(await appPage.$formGroup.last().element(by.tagName('label')).getText()).toEqual('Pwd', 'Password label is not correct');
             });
 
             it('should display Password field placeholder', async () => {
-                expect(await appPage.$passwordField.getAttribute('placeholder')).toContain('Enter your password', 'Password field placeholder is not correct');
+                expect(await appPage.$passwordField.getAttribute('placeholder')).toContain('ABC$*1@', 'Password field placeholder is not correct');
             });
 
             it('should display Login button', async () => {
@@ -61,7 +53,7 @@ describe('Version 1 hackathon app', () => {
             });
 
             it('should display Social media icons', async () => {
-                expect(await appPage.$socialMediaIcons.count()).toEqual(3, 'Social media icons count is not correct');
+                expect(await appPage.$socialMediaIcons.count()).toEqual(2, 'Social media icons count is not correct');
             });
         });
 
@@ -69,7 +61,7 @@ describe('Version 1 hackathon app', () => {
             it('should enter both Username and Password', async () => {
                 await appPage.loginWithCredentials('', '');
                 await appPage.$loginBtn.click();
-                expect(await appPage.$alertWarning.getText()).toContain('Both Username and Password must be present', 'Alert text is not displayed properly when both username and password are missing');
+                expect(await appPage.$alertWarning.getText()).toContain('Please enter both username and password', 'Alert text is not displayed properly when both username and password are missing');
             });
 
             it('should enter password', async () => {
@@ -110,11 +102,8 @@ describe('Version 1 hackathon app', () => {
                 jsonObjBeforeSort = JSON.parse(jsonString);
             });
 
-            it('should sort amounts when click on amounts header', async () => {
+            it('should click on amounts header', async () => {
                 await appPage.$amountColumnHeader.click();
-                // actual amounts after sort
-                const actualAmountsAfterSort: string = await element.all(by.css('#transactionsTable tbody tr td:nth-child(5)')).getText();
-                expect(await appPage.isSorted(actualAmountsAfterSort)).toBe(true, 'Amounts are NOT sorted in ascending order');
             });
 
             it('should preserve rows integrity after the sort', async () => {
@@ -152,25 +141,16 @@ describe('Version 1 hackathon app', () => {
         beforeAll(async () => {
             appPage.get(true);
             await appPage.loginWithCredentials('user', 'password');
-            flashImg1 = appPage.$flashSale1Container.element(by.tagName('img'));
             flashImg2 = appPage.$flashSale2Container.element(by.tagName('img'));
         });
 
         describe('Flash gif tests', async () => {
-            it('should display First flash gif image', async () => {
-                expect(await flashImg1.isPresent()).toBe(true, 'First flash sale image is NOT displayed');
-            });
-
-            it('should display First flash gif context', async () => {
-                expect(flashImg1.getAttribute('src')).toContain('img/flashSale.gif', 'First flash sale image displays different GIF image');
-            });
-
             it('should display Second flash gif image', async () => {
                 expect(await flashImg2.isPresent()).toBe(true, 'Second flash sale image is NOT displayed');
             });
 
             it('should display Second flash gif context', async () => {
-                expect(flashImg2.getAttribute('src')).toContain('img/flashSale2.gif', 'Second flash sale image displays different GIF image');
+                expect(flashImg2.getAttribute('src')).toContain('img/flaseSale3.gif', 'Second flash sale image displays different GIF image');
             });
         });
     });
