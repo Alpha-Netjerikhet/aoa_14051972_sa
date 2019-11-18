@@ -5,13 +5,17 @@
 **Technical summary**
 
 *Dependencies to be added:* 
-"@types/jasmine": "^3.4.6"
+"@types/jasmine": "^3.4.6",
+"@types/lodash.isequal": "^4.5.5",
+"lodash.isequal": "^4.5.0",
+"webdriver-manager": "^12.1.7"
 
 *devDependencies to be added:*
 "@types/node": "^12.12.7",
 "jasmine": "^3.5.0",
+"jasmine-spec-reporter": "^4.2.1",
 "protractor": "^5.4.2",
-"typescript": "^3.7.2"
+"typescript": "3.6.4"
 
 *To convert typescript to js and to run tests, the following is added to package.json:*
   "scripts": {
@@ -25,10 +29,10 @@
 "types": ["jasmine", "node"],
 "exclude": ["node_modules/*"] // to not transpile any ts file in node_modules folder
 
-## How to download test code and use it
+## How to download test framework and use it
 1. Install node
 1. Clone project
-2. To add all dependencies run: npm install
+2. Go to the project's folder then, to add all dependencies run: npm install
 3. To update webdriver-manager locally, run the following:
    node node_modules/protractor/bin/webdriver-manager update
 4. To run tests: npm run test
