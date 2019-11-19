@@ -15,7 +15,8 @@ export let config: Config = {
 
     baseUrl: 'https://demo.applitools.com',
 
-    specs: ['./specs/TraditionalTests.js'],
+    // specs: ['./specs/TraditionalTests.js'], // tests for non-visual scenarios
+    specs: ['./specs/VisualAITests.js'], // tests for visual scenarios
 
     jasmineNodeOpts: {
         print: function () { }
@@ -27,6 +28,5 @@ export let config: Config = {
                 displayStacktrace: true
             }
         }));
-        // browser.manage().window().maximize();
     }
 }
