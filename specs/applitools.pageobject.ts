@@ -11,16 +11,21 @@ export class ApplitoolsHackathonAppPage {
     private amountColumnHeader: ElementFinder = element(by.css('#amount'));
     private compareExpensesLink: ElementFinder = element(by.id('showExpensesChart')); // element(by.partialLinkText('Compare Expenses'));
     private showNextYearLink = element(by.id('addDataset'));
-    private eyes: any;
+    private eyes = new Eyes();
 
     private url: string = browser.baseUrl + '/hackathon.html';
     // private url: string = browser.baseUrl + '/hackathonV2.html';
 
+    public initSDKAPI = async () => {
+        await this.eyes.setApiKey(applitoolsApiKey);
+    }
+
+    public createBatch = async (batchName: string) => {
+        await this.eyes.setBatch(batchName);
+        await this.eyes.open(browser, "Hackathon App", batchName); // "Protractor Test!");
+    }
+
     public async get(): Promise<void> {
-        // Initialize the eyes SDK and set your private API ke
-        this.eyes = new Eyes();
-        this.eyes.setApiKey(applitoolsApiKey);
-        this.eyes.open(browser, "Hackathon App", "Protractor Test!");
         browser.waitForAngularEnabled(false);
         await browser.get(this.url);
     }

@@ -8,7 +8,7 @@
     "pretest": "npm run tsc",
     "test": "protractor outputjs/conf.js"
   },
-  "author": "",
+  "author": "Ashraf Abdin",
   "license": "ISC",
   "dependencies": {
     "@types/jasmine": "^3.4.6",
