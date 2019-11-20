@@ -5,18 +5,20 @@ describe('Applitools Hackathon', () => {
 
     beforeAll(async () => {
         appPage = new ApplitoolsHackathonAppPage();
+        await appPage.initSDKAPI();
     });
 
     describe("Hackathon App", function () {
-        beforeAll(async () => {
-            await appPage.get();
-        });
-
-        afterAll(async () => {
-            appPage.$eyes.close();
-        });
-
         describe('Login Page UI Elements Test', async () => {
+            beforeAll(async () => {
+                await appPage.createBatch('Login Page UI Elements Test');
+                await appPage.get();
+            });
+
+            afterAll(async () => {
+                appPage.$eyes.close();
+            });
+
             it('use applitools to check UI elements of login page', async () => {
                 await appPage.$eyes.checkWindow("Login form");
             });
@@ -30,6 +32,14 @@ describe('Applitools Hackathon', () => {
         });
 
         describe('Data-Driven Test', async () => {
+            beforeAll(async () => {
+                await appPage.createBatch('Data-Driven Test');
+            });
+
+            afterAll(async () => {
+                appPage.$eyes.close();
+            });
+
             it('should enter both Username and Password', async () => {
                 await appPage.loginWithCredentials('', '');
                 await appPage.$eyes.checkWindow('missing both username and password');
@@ -52,8 +62,15 @@ describe('Applitools Hackathon', () => {
         });
 
         describe('Table Sort and rows integrity Test', async () => {
+            beforeAll(async () => {
+                await appPage.createBatch('Table Sort and rows integrity Test');
+            });
+
+            afterAll(async () => {
+                appPage.$eyes.close();
+            });
             it('should store table data before sort', async () => {
-                await appPage.$eyes.checkWindow('table data before sor');
+                await appPage.$eyes.checkWindow('table data before sort');
             });
 
             it('should sort amounts when click on amounts header', async () => {
@@ -63,6 +80,13 @@ describe('Applitools Hackathon', () => {
         });
 
         describe('Canvas Chart Test', async () => {
+            beforeAll(async () => {
+                await appPage.createBatch('Canvas Chart Test');
+            });
+
+            afterAll(async () => {
+                appPage.$eyes.close();
+            });
             it('should display Canvas chart', async () => {
                 await appPage.$compareExpensesLink.click();
                 await appPage.$eyes.checkWindow('displays chart');
@@ -75,9 +99,16 @@ describe('Applitools Hackathon', () => {
         });
 
         describe('Dynamic Content Test, with ads', function () {
-            it('test with ads', async () => {
+            beforeAll(async () => {
+                await appPage.createBatch('Dynamic Content Test, with ads');
                 await appPage.withAds();
                 await appPage.loginWithCredentials('user', 'password');
+            });
+
+            afterAll(async () => {
+                appPage.$eyes.close();
+            });
+            it('test with ads', async () => {
                 await appPage.$eyes.checkWindow('displays gif images');
             });
         });
